@@ -35,11 +35,12 @@ async def make_profile(ctx):
     await ctx.send("Making profile")
 
 
-@bot.command(name='find_team')
+@bot.command(name='find')
 async def find_team(ctx):
     """
     Uses profile and situation-specific info to find a team. Info we need includes 
-
+    1. which game
+    2. number of people needed 
 
     Args:
         ctx: context of the command. Usually the channel 
