@@ -17,8 +17,7 @@ from config import HOST, PORT, PASSWORD, USER, DATABASE_NAME
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-intents = Intents.default()
-intents.members = True # see members of the server
+
 
 async def main():
     async with create_pool(
@@ -31,9 +30,8 @@ async def main():
         async with Bot(
             db=pool,
             command_prefix='!',
-            intent=intents
+            intents=Intents.all()
         ) as bot:
-            
             await bot.start(token=TOKEN)
 
 
@@ -48,14 +46,7 @@ if __name__ == '__main__':
 
 
 
-# @bot.setup_hook
-# async def setup():
-#     print('Performing setup tasks...')
-#     # Connect to database
-#     with open("sql/schemas.sql", 'r') as sql:
-#         await bot.pg_con.execute(sql.read())
-#     # Initialize variables
-#     print('Setup complete!')
+
 
 # @bot.event
 # async def on_ready():

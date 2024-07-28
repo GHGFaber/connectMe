@@ -1,6 +1,13 @@
 from discord.ext import commands
 from asyncpg import Pool
 import discord 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # The __all__ variable specifies the public symbols that the module exports, 
 # and it should be a list or tuple of strings representing the names of the objects to be imported when from module import * is used.
@@ -13,9 +20,38 @@ class Bot(commands.Bot):
     def __init__(self, db: Pool, **kwargs):
         super().__init__(**kwargs)
         self.db = db
+
+    async def __aenter__(self):
+        await self.start(TOKEN)
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
     
     async def on_ready(self):
         print(f"Logged in as {self.user} (ID: {self.user.id})")
+        try:
+            print('Performing setup tasks...')
+            logging.info("setup_hook started...")
+            # Connect to database
+            async with self.db.acquire() as conn:
+                logging.info("db_connected")
+                with open("sql/schemas.sql", 'r') as sql:
+                    logging.info("reading sql")
+                    await conn.execute(sql.read())
+                    logging.info("sql read finished!")
+            # Initialize variables
+            print('Setup complete!')
+        except Exception as e:
+            logging.info("ERROR")
+            print(e)
+    
+
+    # async def setup_hook(self):
+    #     pass
+
+
+
 
     # @bot.command(name='profile', help='Starts the process of making a profile')
     # async def make_profile(ctx):
