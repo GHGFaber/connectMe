@@ -6,17 +6,26 @@ class CrudOperation(commands.Cog):
     def __init__(self, bot: Bot):
         self.bot = Bot
 
-    @commands.command()
-    async def create(self, ctx: commands.Context):
+    # call these functions when you have the data ready 
+    async def create(self):
         await self.bot.db.execute(
-            
+            # SQL statement to insert profile information 
+        )
+        print("row_added")
+
+        async def update(self):
+        await self.bot.db.execute(
+            # SQL statement to update profile information 
         )
 
-    @commands.command()
-    async def update(self, ctx: commands.Context):
 
-    @commands.command()
-    async def read(self, ctx: commands.Context):
+    async def read(self):
+        await self.bot.db.execute(
+            # SQL statement to read profile information 
+        )
 
-    @commands.command()
-    async def delete(self, ctx: commands.Context):
+
+    async def delete(self):
+        await self.bot.db.execute(
+            # SQL statement to delete profile information 
+        )
