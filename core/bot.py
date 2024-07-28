@@ -15,10 +15,14 @@ __all__ = (
     "Bot",
 )
 
+
+# Add your commands by doing self.add_command(self.(name of function defition of command))
+# See example below 
 # Override base class constructor and methods 
 class Bot(commands.Bot):
     def __init__(self, db: Pool, **kwargs):
         super().__init__(**kwargs)
+        self.add_command(self.profile)
         self.db = db
 
     async def __aenter__(self):
@@ -45,27 +49,24 @@ class Bot(commands.Bot):
         except Exception as e:
             logging.info("ERROR")
             print(e)
-    
-
-    # async def setup_hook(self):
-    #     pass
 
 
 
 
-    # @bot.command(name='profile', help='Starts the process of making a profile')
-    # async def make_profile(ctx):
-    #     """
-    #     Starts the process of making a profile for the user. Guide users on specifc info needed and maybe a self intro.
-    #     Profile info should be something that stays the same. We could set up a questionaire for the user and they answer by reacting. 
-    #     Stuff like language, region, rank, 
+    # Remember decorator 
+    @commands.command()
+    async def profile(ctx):
+        """
+        Starts the process of making a profile for the user. Guide users on specifc info needed and maybe a self intro.
+        Profile info should be something that stays the same. We could set up a questionaire for the user and they answer by reacting. 
+        Stuff like language, region, rank, 
 
-    #     Args:
-    #         ctx: context of the command. Usually the channel 
-    #     """
+        Args:
+            ctx: context of the command. Usually the channel 
+        """
 
 
-    #     await ctx.send("Making profile")
+        await ctx.send("Making profile")
 
 
     # @bot.command(name='find')
